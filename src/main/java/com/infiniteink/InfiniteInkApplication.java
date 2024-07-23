@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class InfiniteInkApplication {
 	
-	// test 2
+	// test branch code
 	public static void main(String[] args) {
 		SpringApplication.run(InfiniteInkApplication.class, args);
 	}
