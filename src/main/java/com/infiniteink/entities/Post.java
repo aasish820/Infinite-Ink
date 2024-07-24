@@ -21,28 +21,27 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="post")
+@Table(name = "post")
 public class Post {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	private Long id;
-	@NotBlank(message="Title is mandatory")
+	@NotBlank(message = "Title is mandatory")
 	private String title;
-	@NotBlank(message="Content is mandatory")
+	@NotBlank(message = "Content is mandatory")
 	private String content;
 	private String image;
-	
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
-    
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id", nullable = false)
+	private Category category;
+
 	@JsonIgnore
 	private LocalDateTime deleted_at;
-
 
 }
