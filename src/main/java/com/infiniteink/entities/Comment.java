@@ -23,33 +23,29 @@ import lombok.NoArgsConstructor;
 @Table(name = "COMMENT")
 public class Comment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 
-    @NotBlank(message = "Comment cannot be empty")
-    private String comment;
+	@NotBlank(message = "Comment cannot be empty")
+	private String comment;
 
 //    @ManyToOne
 //    @JoinColumn(name = "post_id", nullable = false)
 //    private Post post_id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user_id;
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user_id;
 
-    @JsonIgnore
+	@JsonIgnore
 	private LocalDateTime deleted_at;
-	
+
 	@CreationTimestamp
 	@JsonIgnore
 	private LocalDateTime created_at;
-	
+
 	@UpdateTimestamp
 	@JsonIgnore
 	private LocalDateTime updated_at;
-
-    // field for soft delete
-    @JsonIgnore
-    private boolean isDeleted = false;
 }
