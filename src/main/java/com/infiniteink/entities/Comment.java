@@ -30,13 +30,13 @@ public class Comment {
 	@NotBlank(message = "Comment cannot be empty")
 	private String comment;
 
-//    @ManyToOne
-//    @JoinColumn(name = "post_id", nullable = false)
-//    private Post post_id;
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
-	private User user_id;
+	private User user;
 
 	@JsonIgnore
 	private LocalDateTime deleted_at;
