@@ -40,6 +40,5 @@ public class Category {
 	private LocalDateTime updatedAt;
 
 	@JsonIgnore
-	private boolean deleted = false;
-
+	private LocalDateTime deleted_at;
 }
