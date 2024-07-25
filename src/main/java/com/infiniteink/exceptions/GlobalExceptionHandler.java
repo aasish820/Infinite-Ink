@@ -47,6 +47,18 @@ public class GlobalExceptionHandler {
         error.put("message", message);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
+  
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<Map<String, String>> handleValidationExceptions(UserNotFoundException ex) {
+
+		Locale locale = LocaleContextHolder.getLocale();
+
+		String message = messageSource.getMessage("user.notfound", new Object[] { ex.getMessage() }, locale);
+		Map<String, String> error = new HashMap<>();
+		error.put("message", message);
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+
+	}
 
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
