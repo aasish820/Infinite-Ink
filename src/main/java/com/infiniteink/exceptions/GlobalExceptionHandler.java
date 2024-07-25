@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -37,6 +38,16 @@ public class GlobalExceptionHandler {
 	}
 
 	@ResponseStatus(HttpStatus.NOT_FOUND)
+	
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<Map<String, String>> PostNotFoundException(PostNotFoundException ex) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = messageSource.getMessage("resource.notfound", new Object[] { ex.getMessage() }, locale);
+        Map<String, String> error = new HashMap<>();
+        error.put("message", message);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+  
 	@ExceptionHandler(UserNotFoundException.class)
 	public ResponseEntity<Map<String, String>> handleValidationExceptions(UserNotFoundException ex) {
 
