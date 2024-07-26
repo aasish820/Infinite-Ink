@@ -1,16 +1,15 @@
 package com.infiniteink.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.din.entity.Employee;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -37,12 +36,9 @@ public class Category {
 	@NotBlank(message = "Title is manadatory")
 	@Size(min = 1, max = 100, message = "Title must be between 1 and 100  characters")
 	private String title;
-	
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="post_id", nullable=false)
-	private Post post;
-	
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Post> posts = new ArrayList<>();
 
 	@CreationTimestamp
 	@JsonIgnore
