@@ -38,6 +38,7 @@ public class CommentController {
 
 	@PostMapping("/create")
 	public ResponseEntity<?> createComment(@Valid @ModelAttribute("commentDto") CommentDto commentdto) {
+		System.out.println(commentdto);
 		try {
 			
 			Post post = postServiceImpl.getPostbyId(commentdto.getPost_id());
