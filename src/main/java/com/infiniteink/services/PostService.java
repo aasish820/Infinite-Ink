@@ -3,7 +3,7 @@ package com.infiniteink.services;
 import java.util.List;
 
 import com.infiniteink.entities.Post;
-public interface PostService {
+public interface PostService  {
 	//to view a list of all posts in the system.
 	//To View Post by ID
 	//View All posts by User ID

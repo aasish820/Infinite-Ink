@@ -3,12 +3,14 @@ package com.infiniteink.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.infiniteink.entities.Post;
 import com.infiniteink.exceptions.PostNotFoundException;
 import com.infiniteink.repositories.PostRepo;
 import com.infiniteink.services.PostService;
-
+//@Service
 public class PostServiceImpl implements PostService {
 	@Autowired
 	private PostRepo postrepo;
@@ -19,9 +21,9 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post getPostbyId(Long id) {
+	public Post getPostbyId(Long Id) {
 		// TODO Auto-generated method stub
-		return postrepo.findActivePostById(id);
+		return postrepo.findActivePostById(Id);
 	}
 
 	@Override
