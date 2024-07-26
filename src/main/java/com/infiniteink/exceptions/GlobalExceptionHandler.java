@@ -58,6 +58,18 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 
 	}
+	
+	@ExceptionHandler(CommentNotFoundException.class)
+	public ResponseEntity<Map<String, String>> handleValidationExceptions(CommentNotFoundException ex) {
+
+		Locale locale = LocaleContextHolder.getLocale();
+
+		String message = messageSource.getMessage("comment.notfound", new Object[] { ex.getMessage() }, locale);
+		Map<String, String> error = new HashMap<>();
+		error.put("message", message);
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+
+	}
 
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)

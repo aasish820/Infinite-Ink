@@ -13,8 +13,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.infiniteink.entities.Comment;
+import com.infiniteink.entities.Post;
+import com.infiniteink.entities.User;
 import com.infiniteink.exceptions.CommentNotFoundException;
+import com.infiniteink.models.CommentDto;
 import com.infiniteink.services.impl.CommentServiceImpl;
+import com.infiniteink.services.impl.PostServiceImpl;
+import com.infiniteink.services.impl.UserServiceImpl;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -23,15 +29,23 @@ public class CommentController {
 
 	@Autowired
 	private CommentServiceImpl commentServiceImpl;
+	
+	@Autowired
+	private PostServiceImpl postServiceImpl;
+	
+	@Autowired
+	private UserServiceImpl userServiceImpl;
 
 	@PostMapping("/create")
-	public ResponseEntity<?> createComment(@Valid @ModelAttribute("Comment") Comment comment) {
+	public ResponseEntity<?> createComment(@Valid @ModelAttribute("commentDto") CommentDto commentdto) {
 		try {
-			Comment cmt = new Comment();
-			System.out.println(comment.getComment());
 			
-			cmt.setComment(comment.getComment());
-
+			Post post = postServiceImpl.getPostbyId(commentdto.getPost_id());
+			User user = userServiceImpl.getUserByID(commentdto.getUser_id());
+			Comment comment = commentdto.getComment();
+			comment.setPost(post);
+			comment.setUser(user);
+			
 			Comment savedComment = commentServiceImpl.createComment(comment);
 
 			Map<String, String> response = new HashMap<>();
