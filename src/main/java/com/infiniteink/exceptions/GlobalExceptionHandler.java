@@ -3,7 +3,6 @@ package com.infiniteink.exceptions;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -54,6 +53,18 @@ public class GlobalExceptionHandler {
 		Locale locale = LocaleContextHolder.getLocale();
 
 		String message = messageSource.getMessage("user.notfound", new Object[] { ex.getMessage() }, locale);
+		Map<String, String> error = new HashMap<>();
+		error.put("message", message);
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+
+	}
+	
+	@ExceptionHandler(CommentNotFoundException.class)
+	public ResponseEntity<Map<String, String>> handleValidationExceptions(CommentNotFoundException ex) {
+
+		Locale locale = LocaleContextHolder.getLocale();
+
+		String message = messageSource.getMessage("comment.notfound", new Object[] { ex.getMessage() }, locale);
 		Map<String, String> error = new HashMap<>();
 		error.put("message", message);
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
