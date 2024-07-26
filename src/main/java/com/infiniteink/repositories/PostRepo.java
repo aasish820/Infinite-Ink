@@ -10,20 +10,20 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infiniteink.entities.Post;
-@Repository
 
+@Repository
 public interface PostRepo extends JpaRepository<Post, Integer> {
-	@Query("select p from Post p where p.deleted_at=false")
+	@Query("select p from Post p where p.deleted_at IS NULL")
 	List<Post> findAllActivePosts();
 
-	@Query("select p from Post p where p.id=?1 and p.deleted_at=false")
+	@Query("select p from Post p where p.id=?1 and p.deleted_at IS NULL")
 	Post findActivePostById(Long Id);
 	
-	@Query("select p from Post p where p.user_id=?1 and p.deleted_at=false")
-	List<Post> findActivePostsByUserId(Long userId);
+	@Query("select p from Post p where p.user.id=?1 and p.deleted_at IS NULL")
+	List<Post> findActivePostsByUserId(Long user_id);
 
-	@Query("select p from Post p where p.category_id=?1 and p.deleted_at=false")
-	List<Post> findActivePostsByCategoryId(Long categoryId);
+	@Query("select p from Post p where p.category.id=?1 and p.deleted_at IS NULL")
+	List<Post> findActivePostsByCategoryId(Long category_id);
 	
 	// Soft delete a post by ID
     @Transactional
