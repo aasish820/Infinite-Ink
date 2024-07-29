@@ -1,6 +1,7 @@
 package com.infiniteink.controllers;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.infiniteink.entities.User;
 import com.infiniteink.exceptions.UserNotFoundException;
+import com.infiniteink.models.UserDTO;
 import com.infiniteink.services.impl.UserServiceImpl;
 
 import jakarta.validation.Valid;
@@ -62,9 +64,19 @@ public class UserController {
 	@GetMapping("/{id}/list")
 	public ResponseEntity<?> getUserByID(@PathVariable("id") Long id) {
 		try {
-			User user = impl.getUserByID(id);
-				return ResponseEntity.ok(user);
-			
+//			User user = impl.getUserByID(id);
+//			Map<Object, Object> result = new LinkedHashMap<>();
+//			result.put("Id", user.getId());
+//			result.put("Full Name", user.getFull_name());
+//			result.put("Address", user.getAddress());
+//			result.put("Email", user.getEmail());
+//			result.put("Password", user.getPassword());
+//			result.put("About", user.getAbout());
+//			result.put("Posts", user.getPosts());
+//			result.put("Comments", user.getComments());
+//			return ResponseEntity.ok(result);
+			UserDTO userDTO = impl.getUserByID(id);
+	        return ResponseEntity.ok(userDTO);
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 			Map<String,String>response=new HashMap<>();

@@ -18,6 +18,7 @@ import com.infiniteink.entities.Post;
 import com.infiniteink.entities.User;
 import com.infiniteink.exceptions.CommentNotFoundException;
 import com.infiniteink.models.CommentDto;
+import com.infiniteink.models.UserDTO;
 import com.infiniteink.services.impl.CommentServiceImpl;
 import com.infiniteink.services.impl.PostServiceImpl;
 import com.infiniteink.services.impl.UserServiceImpl;
@@ -40,12 +41,12 @@ public class CommentController {
 	@PostMapping("/create")
 	public ResponseEntity<?> createComment(@Valid @ModelAttribute("commentDto") CommentDto commentdto) {
 		try {
-			
+
 			Post post = postServiceImpl.getPostbyId(commentdto.getPost_id());
-			User user = userServiceImpl.getUserByID(commentdto.getUser_id());
+			UserDTO user = userServiceImpl.getUserByID(commentdto.getUser_id());
 			Comment comment = commentdto.getComment();
 			comment.setPost(post);
-			comment.setUser(user);
+			comment.setUser(user.getUser());
 			
 			Comment savedComment = commentServiceImpl.createComment(comment);
 

@@ -1,13 +1,20 @@
 package com.infiniteink.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.infiniteink.entities.Comment;
+import com.infiniteink.entities.Post;
 import com.infiniteink.entities.User;
 import com.infiniteink.exceptions.UserNotFoundException;
+import com.infiniteink.models.CommentDto;
+import com.infiniteink.models.PostDTO;
+import com.infiniteink.models.UserDTO;
 import com.infiniteink.repositories.UserRepo;
 import com.infiniteink.services.UserService;
 
@@ -16,16 +23,45 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserRepo repo;
+	
+	
+	private UserDTO convertToDTO(User user) {
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUser(user);
+		userDTO.setPosts(user.getPosts().stream()
+								.map(this::convertPostToDTO)
+								.collect(Collectors.toList()));
+		userDTO.setComments(user.getComments().stream()
+								.map(this::convertCommentToDTO)
+								.collect(Collectors.toList()));
 		
+		return userDTO;
+	}
+	
+	private PostDTO convertPostToDTO(Post post) {
+		PostDTO postDTO = new PostDTO();
+		postDTO.setPost(post);
+		return postDTO;
+	}
+	
+	private CommentDto convertCommentToDTO(Comment comment) {
+		CommentDto commentDTO = new CommentDto();
+		commentDTO.setComment(comment);
+		return commentDTO;
+	}
+	
+	
 	@Override
 	public List<User> getAllUsers() {
-		return repo.findAllActiveUser();
+		List<User> userList = repo.findAllActiveUser();
+		userList.stream().forEach(item->convertToDTO(item));
+		return userList;
 	}
 
 	@Override
-	public User getUserByID(Long id) {
+	public UserDTO getUserByID(Long id) {
 		User user = repo.findActiveUserByID(id).orElseThrow(()->new UserNotFoundException("User does not exist"));
-		return user;
+		return convertToDTO(user);
 	}
 
 	@Override
@@ -43,7 +79,6 @@ public class UserServiceImpl implements UserService {
 			userObj.setEmail(user.getEmail());
 			userObj.setPassword(user.getPassword());
 			userObj.setAbout(user.getAbout());
-			
 			User updateUser = repo.save(userObj);
 			return updateUser;
 		}

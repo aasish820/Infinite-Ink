@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.infiniteink.entities.User;
+import com.infiniteink.models.UserDTO;
 
 import jakarta.transaction.Transactional;
 
