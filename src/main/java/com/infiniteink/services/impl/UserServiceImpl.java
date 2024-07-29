@@ -27,12 +27,14 @@ public class UserServiceImpl implements UserService {
 	
 	private UserDTO convertToDTO(User user) {
 		UserDTO userDTO = new UserDTO();
-		userDTO.setUser(user);
+		userDTO.setId(user.getId());
+		userDTO.setFull_name(user.getFull_name());
+		userDTO.setAddress(user.getAddress());
+		userDTO.setEmail(user.getEmail());
+		userDTO.setPassword(user.getPassword());
+		userDTO.setAbout(user.getAbout());
 		userDTO.setPosts(user.getPosts().stream()
 								.map(this::convertPostToDTO)
-								.collect(Collectors.toList()));
-		userDTO.setComments(user.getComments().stream()
-								.map(this::convertCommentToDTO)
 								.collect(Collectors.toList()));
 		
 		return userDTO;
@@ -40,22 +42,16 @@ public class UserServiceImpl implements UserService {
 	
 	private PostDTO convertPostToDTO(Post post) {
 		PostDTO postDTO = new PostDTO();
-		postDTO.setPost(post);
+		postDTO.setId(post.getId());
+		postDTO.setTitle(post.getTitle());
+		postDTO.setContent(post.getContent());
 		return postDTO;
 	}
 	
-	private CommentDto convertCommentToDTO(Comment comment) {
-		CommentDto commentDTO = new CommentDto();
-		commentDTO.setComment(comment);
-		return commentDTO;
-	}
-	
-	
 	@Override
-	public List<User> getAllUsers() {
+	public List<UserDTO> getAllUsers() {
 		List<User> userList = repo.findAllActiveUser();
-		userList.stream().forEach(item->convertToDTO(item));
-		return userList;
+		return userList.stream().map(user->convertToDTO(user)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -65,22 +61,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User createUser(User user) {
-		User saveUser = repo.save(user);
-		return saveUser;
+	public UserDTO createUser(UserDTO userDTO) {
+		User user = new User();
+		user.setFull_name(userDTO.getFull_name());
+		user.setAddress(userDTO.getAddress());
+		user.setAbout(userDTO.getAbout());
+		user.setEmail(userDTO.getEmail());
+		user.setPassword(userDTO.getPassword());
+		User saveduser = repo.save(user);
+		return convertToDTO(saveduser);
 	}
 
 	@Override
-	public User updateUser(Long id, User user) {
+	public UserDTO updateUser(Long id, UserDTO userDTO) {
 		User userObj = repo.findActiveUserByID(id).get();
 		if(userObj != null) {
-			userObj.setFull_name(user.getFull_name());
-			userObj.setAddress(user.getAddress());
-			userObj.setEmail(user.getEmail());
-			userObj.setPassword(user.getPassword());
-			userObj.setAbout(user.getAbout());
+			userObj.setFull_name(userDTO.getFull_name());
+			userObj.setAddress(userDTO.getAddress());
+			userObj.setEmail(userDTO.getEmail());
+			userObj.setPassword(userDTO.getPassword());
+			userObj.setAbout(userDTO.getAbout());
 			User updateUser = repo.save(userObj);
-			return updateUser;
+			return convertToDTO(updateUser);
 		}
 		return null;
 	}

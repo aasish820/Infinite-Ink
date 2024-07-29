@@ -2,18 +2,17 @@ package com.infiniteink.services;
 
 import java.util.List;
 
-import com.infiniteink.entities.User;
 import com.infiniteink.models.UserDTO;
 
 public interface UserService {
 	
-	List<User> getAllUsers();
+	List<UserDTO> getAllUsers();
 	
 	UserDTO getUserByID(Long id);
 	
-	User createUser(User user);
+	UserDTO createUser(UserDTO userDTO);
 	
-	User updateUser(Long id, User user);
+	UserDTO updateUser(Long id, UserDTO userDTO);
 	
 	String deleteUser(Long id);
 }

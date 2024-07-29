@@ -46,7 +46,7 @@ public class CommentController {
 			UserDTO user = userServiceImpl.getUserByID(commentdto.getUser_id());
 			Comment comment = commentdto.getComment();
 			comment.setPost(post);
-			comment.setUser(user.getUser());
+//			comment.setUser(user.getUser());
 			
 			Comment savedComment = commentServiceImpl.createComment(comment);
 

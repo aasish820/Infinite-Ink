@@ -8,5 +8,7 @@ import lombok.Data;
 
 @Data
 public class PostDTO {
-	private Post post;
+	private long id;
+	private String title;
+	private String content;
 }

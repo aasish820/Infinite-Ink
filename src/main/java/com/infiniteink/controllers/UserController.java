@@ -34,17 +34,9 @@ public class UserController {
 	
 	
 	@PostMapping("/register")
-	public ResponseEntity<?> registerUser(@Valid @ModelAttribute("user") User user) {
-		try {
-			User userobj = new User();
-			userobj.setFull_name(user.getFull_name());
-			userobj.setAddress(user.getAddress());
-			userobj.setEmail(user.getEmail());
-			userobj.setPassword(user.getPassword());
-			userobj.setAbout(user.getAbout());
-			
-			User savedUser = impl.createUser(userobj);
-			
+	public ResponseEntity<?> registerUser(@Valid @ModelAttribute("userdto") UserDTO userDTO) {
+		try {			
+			UserDTO savedUser = impl.createUser(userDTO);
 			Map<String, String> response = new HashMap<>();
 			response.put("message", "User registered successfully");
 			return ResponseEntity.ok(response);
@@ -57,24 +49,14 @@ public class UserController {
 	}
 	
 	@GetMapping("/list")
-	public List<User> getAllUsers() {
-		return impl.getAllUsers();
+	public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> userDTOs = impl.getAllUsers();
+		return ResponseEntity.ok(userDTOs);
 	}
 	
 	@GetMapping("/{id}/list")
 	public ResponseEntity<?> getUserByID(@PathVariable("id") Long id) {
 		try {
-//			User user = impl.getUserByID(id);
-//			Map<Object, Object> result = new LinkedHashMap<>();
-//			result.put("Id", user.getId());
-//			result.put("Full Name", user.getFull_name());
-//			result.put("Address", user.getAddress());
-//			result.put("Email", user.getEmail());
-//			result.put("Password", user.getPassword());
-//			result.put("About", user.getAbout());
-//			result.put("Posts", user.getPosts());
-//			result.put("Comments", user.getComments());
-//			return ResponseEntity.ok(result);
 			UserDTO userDTO = impl.getUserByID(id);
 	        return ResponseEntity.ok(userDTO);
 		} catch (UserNotFoundException e) {
@@ -87,9 +69,9 @@ public class UserController {
 	}
 	
 	@PutMapping("/{id}/update")
-	public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("user") User user) {
+	public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("userdto") UserDTO userDTO) {
 		try {
-			User userobj = impl.updateUser(id, user);
+			UserDTO userobj = impl.updateUser(id, userDTO);
 			return ResponseEntity.ok("User updated successfully");
 		} catch(Exception e) {
 			e.printStackTrace();
