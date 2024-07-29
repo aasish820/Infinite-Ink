@@ -99,4 +99,10 @@ public class CommentController {
 		String message = commentServiceImpl.deleteComment(id);
 		return ResponseEntity.ok(message);
 	}
+	
+	@GetMapping("/post/{postId}/comments")
+    public ResponseEntity<List<Comment>> getCommentsByPostId(@PathVariable("postId") Long postId) {
+        List<Comment> comments = commentServiceImpl.getCommentsByPostId(postId);
+        return ResponseEntity.ok(comments);
+    }
 }

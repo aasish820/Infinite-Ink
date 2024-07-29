@@ -23,4 +23,7 @@ public interface CommentRepo extends JpaRepository<Comment, Long> {
 	@Transactional
 	@Query(value = "UPDATE Comment c SET c.deleted_at = CURRENT_TIMESTAMP WHERE c.id = :id AND c.deleted_at IS NULL", nativeQuery = true)
 	void deleteCommentById(@Param("id") Long id);
+	
+	@Query("SELECT c FROM Comment c WHERE c.post.id = :postId AND c.deleted_at IS NULL")
+    List<Comment> findByPost_Id(@Param("postId") Long postId);
 }

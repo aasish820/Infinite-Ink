@@ -14,4 +14,6 @@ public interface CommentService {
 	String deleteComment(Long id);
 
 	Comment getCommentById(Long id);
+	
+	List<Comment> getCommentsByPostId(Long postId);
 }
