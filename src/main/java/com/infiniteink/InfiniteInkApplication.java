@@ -2,9 +2,9 @@ package com.infiniteink;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+//@ComponentScan(basePackages = "com.infiniteink")
 //@EnableJpaRepositories(basePackages = "com.infiniteink.repositories.PostRepo")
 public class InfiniteInkApplication {
 	

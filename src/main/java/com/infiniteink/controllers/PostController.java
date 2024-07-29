@@ -30,7 +30,7 @@ public class PostController {
     }
 
 	@GetMapping("/fetch/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable Long id) {
+    public ResponseEntity<Post> getPostById(@PathVariable("id") Long id) {
         Post post = postService.getPostbyId(id);
         if (post == null) {
             throw new PostNotFoundException("Post not found with id " + id);
@@ -39,12 +39,12 @@ public class PostController {
     }
 
     @GetMapping("/fetch/user/{userId}")
-    public List<Post> getPostsByUserId(@PathVariable Long userId) {
+    public List<Post> getPostsByUserId(@PathVariable("userId") Long userId) {
         return postService.getPostByUserId(userId);
     }
 
     @GetMapping("/fetch/category/{categoryId}")
-    public List<Post> getPostsByCategoryId(@PathVariable Long categoryId) {
+    public List<Post> getPostsByCategoryId(@PathVariable("categoryId") Long categoryId) {
         return postService.getPostByCategoryId(categoryId);
     }
 
