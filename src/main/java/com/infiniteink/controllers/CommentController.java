@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.infiniteink.entities.Comment;
@@ -40,6 +39,7 @@ public class CommentController {
 
 	@PostMapping("/create")
 	public ResponseEntity<?> createComment(@Valid @ModelAttribute("commentDto") CommentDto commentdto) {
+		System.out.println(commentdto);
 		try {
 
 			Post post = postServiceImpl.getPostbyId(commentdto.getPost_id());
@@ -100,4 +100,10 @@ public class CommentController {
 		String message = commentServiceImpl.deleteComment(id);
 		return ResponseEntity.ok(message);
 	}
+	
+	@GetMapping("/post/{postId}/comments")
+    public ResponseEntity<List<Comment>> getCommentsByPostId(@PathVariable("postId") Long postId) {
+        List<Comment> comments = commentServiceImpl.getCommentsByPostId(postId);
+        return ResponseEntity.ok(comments);
+    }
 }

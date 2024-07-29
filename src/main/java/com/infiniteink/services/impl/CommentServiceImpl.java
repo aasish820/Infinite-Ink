@@ -69,4 +69,10 @@ public class CommentServiceImpl implements CommentService {
 		return comment;
 	}
 
+	@Override
+	public List<Comment> getCommentsByPostId(Long postId) {
+		// TODO Auto-generated method stub
+		return commentRepo.findByPost_Id(postId);
+	}
+
 }
