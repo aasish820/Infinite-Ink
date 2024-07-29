@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infiniteink.entities.Post;
+
 @Repository
 public interface PostRepo extends JpaRepository<Post, Integer> {
 	@Query("select p from Post p where p.deleted_at IS NULL")

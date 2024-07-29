@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.infiniteink.entities.Post;
 import com.infiniteink.exceptions.PostNotFoundException;
 import com.infiniteink.services.impl.PostServiceImpl;
+
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {

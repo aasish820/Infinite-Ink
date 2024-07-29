@@ -12,6 +12,7 @@ import com.infiniteink.entities.Post;
 import com.infiniteink.exceptions.PostNotFoundException;
 import com.infiniteink.repositories.PostRepo;
 import com.infiniteink.services.PostService;
+
 @Service
 public class PostServiceImpl implements PostService {
 	@Autowired

@@ -1,6 +1,7 @@
 package com.infiniteink.controllers;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.infiniteink.entities.User;
 import com.infiniteink.exceptions.UserNotFoundException;
+import com.infiniteink.models.UserDTO;
 import com.infiniteink.services.impl.UserServiceImpl;
 
 import jakarta.validation.Valid;
@@ -32,17 +34,9 @@ public class UserController {
 	
 	
 	@PostMapping("/register")
-	public ResponseEntity<?> registerUser(@Valid @ModelAttribute("user") User user) {
-		try {
-			User userobj = new User();
-			userobj.setFull_name(user.getFull_name());
-			userobj.setAddress(user.getAddress());
-			userobj.setEmail(user.getEmail());
-			userobj.setPassword(user.getPassword());
-			userobj.setAbout(user.getAbout());
-			
-			User savedUser = impl.createUser(userobj);
-			
+	public ResponseEntity<?> registerUser(@Valid @ModelAttribute("userdto") UserDTO userDTO) {
+		try {			
+			UserDTO savedUser = impl.createUser(userDTO);
 			Map<String, String> response = new HashMap<>();
 			response.put("message", "User registered successfully");
 			return ResponseEntity.ok(response);
@@ -55,16 +49,16 @@ public class UserController {
 	}
 	
 	@GetMapping("/list")
-	public List<User> getAllUsers() {
-		return impl.getAllUsers();
+	public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> userDTOs = impl.getAllUsers();
+		return ResponseEntity.ok(userDTOs);
 	}
 	
 	@GetMapping("/{id}/list")
 	public ResponseEntity<?> getUserByID(@PathVariable("id") Long id) {
 		try {
-			User user = impl.getUserByID(id);
-				return ResponseEntity.ok(user);
-			
+			UserDTO userDTO = impl.getUserByID(id);
+	        return ResponseEntity.ok(userDTO);
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 			Map<String,String>response=new HashMap<>();
@@ -75,9 +69,9 @@ public class UserController {
 	}
 	
 	@PutMapping("/{id}/update")
-	public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("user") User user) {
+	public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("userdto") UserDTO userDTO) {
 		try {
-			User userobj = impl.updateUser(id, user);
+			UserDTO userobj = impl.updateUser(id, userDTO);
 			return ResponseEntity.ok("User updated successfully");
 		} catch(Exception e) {
 			e.printStackTrace();

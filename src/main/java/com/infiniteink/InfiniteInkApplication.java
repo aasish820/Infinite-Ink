@@ -4,8 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-//@ComponentScan(basePackages = "com.infiniteink")
-//@EnableJpaRepositories(basePackages = "com.infiniteink.repositories.PostRepo")
 public class InfiniteInkApplication {
 	
 	// test branch code
