@@ -54,6 +54,7 @@ public class PostController {
         Post createdPost = postService.createPost(post);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }
+    
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post postDto) {
