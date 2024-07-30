@@ -23,7 +23,6 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Comment createComment(Comment comment) {
 		// TODO Auto-generated method stub
-		System.out.println(comment.getComment());
 		Comment cmt = new Comment();
 		cmt.setComment(comment.getComment());
 		cmt.setPost(comment.getPost());

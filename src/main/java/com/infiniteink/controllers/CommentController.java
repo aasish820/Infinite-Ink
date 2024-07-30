@@ -39,15 +39,21 @@ public class CommentController {
 
 	@PostMapping("/create")
 	public ResponseEntity<?> createComment(@Valid @ModelAttribute("commentDto") CommentDto commentdto) {
-		System.out.println(commentdto);
 		try {
 
 			Post post = postServiceImpl.getPostbyId(commentdto.getPost_id());
-			UserDTO user = userServiceImpl.getUserByID(commentdto.getUser_id());
+			UserDTO userDTO = userServiceImpl.getUserByID(commentdto.getUser_id());
 			Comment comment = commentdto.getComment();
 			comment.setPost(post);
-//			comment.setUser(user.getUser());
 			
+			User user = new User();
+	    	user.setId(userDTO.getId());
+	    	user.setFull_name(userDTO.getFull_name());
+	    	user.setAddress(userDTO.getAddress());
+	    	user.setEmail(userDTO.getEmail());
+	    	user.setPassword(userDTO.getPassword());
+	    	user.setAbout(userDTO.getAbout());
+			comment.setUser(user);
 			Comment savedComment = commentServiceImpl.createComment(comment);
 
 			Map<String, String> response = new HashMap<>();

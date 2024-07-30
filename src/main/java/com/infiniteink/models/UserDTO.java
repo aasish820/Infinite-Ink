@@ -2,6 +2,9 @@ package com.infiniteink.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.infiniteink.entities.User;
+
 import lombok.Data;
 
 @Data
@@ -13,4 +16,7 @@ public class UserDTO {
 	private String password;
 	private String about;
 	private List<PostDTO> posts;
+	
+	@JsonIgnore
+	private User user;
 }

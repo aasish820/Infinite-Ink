@@ -13,4 +13,6 @@ public class PostUserResponse {
     private String about;
     private List<PostResponse> posts;
     private List<PostCommentResponse> comments;
+    
+    private User user;
 }

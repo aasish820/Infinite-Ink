@@ -27,12 +27,14 @@ import lombok.NoArgsConstructor;
 public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 	private Long id;
+	
 	@NotBlank(message = "Title is mandatory")
 	private String title;
+	
 	@NotBlank(message = "Content is mandatory")
 	private String content;
+	
 	private String image;
 
 	@ManyToOne(fetch = FetchType.LAZY)
