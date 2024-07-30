@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -40,11 +39,9 @@ public class Category {
 	@Size(min = 1, max = 100, message = "Title must be between 1 and 100  characters")
 	private String title;
 
-	
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JsonManagedReference
 	private List<Post> posts = new ArrayList<>();
-	
+
 
 	@CreationTimestamp
 	@JsonIgnore
