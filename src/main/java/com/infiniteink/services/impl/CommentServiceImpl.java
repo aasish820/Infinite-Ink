@@ -38,8 +38,8 @@ public class CommentServiceImpl implements CommentService {
 		// check if records exists or not
 		Comment cmt = commentRepo.findActiveCommentByID(id).get();
 		if (cmt != null) {
-			cmt.setComment(comment.getComment());
-
+			//cmt.setComment(comment.getComment());
+			System.out.println(comment.getComment());
 			Comment updateComment = commentRepo.save(cmt);
 			return updateComment;
 

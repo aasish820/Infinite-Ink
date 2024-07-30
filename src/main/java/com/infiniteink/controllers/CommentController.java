@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,8 +44,10 @@ public class CommentController {
 
 			Post post = postServiceImpl.getPostbyId(commentdto.getPost_id());
 			UserDTO userDTO = userServiceImpl.getUserByID(commentdto.getUser_id());
-			Comment comment = commentdto.getComment();
-			comment.setPost(post);
+			String comment = commentdto.getComment();
+			Comment cmt = new Comment();
+			cmt.setComment(comment);
+			cmt.setPost(post);
 			
 			User user = new User();
 	    	user.setId(userDTO.getId());
@@ -53,8 +56,8 @@ public class CommentController {
 	    	user.setEmail(userDTO.getEmail());
 	    	user.setPassword(userDTO.getPassword());
 	    	user.setAbout(userDTO.getAbout());
-			comment.setUser(user);
-			Comment savedComment = commentServiceImpl.createComment(comment);
+			cmt.setUser(user);
+			Comment savedComment = commentServiceImpl.createComment(cmt);
 
 			Map<String, String> response = new HashMap<>();
 			response.put("message", "Comment created successfully");
@@ -89,19 +92,23 @@ public class CommentController {
 
 	@PutMapping("/{id}/update")
 	public ResponseEntity<?> updateComment(@PathVariable("id") Long id,
-			@Valid @ModelAttribute("comment") Comment comment) {
+			@Valid @ModelAttribute("comment") CommentDto commentDto) {
 		try {
-			Comment cmt = commentServiceImpl.updateComment(id, comment);
-			return ResponseEntity.ok("Comment updated successfully");
-		} catch (Exception e) {
-			e.printStackTrace();
-			Map<String, String> response = new HashMap<>();
-			response.put("message", "Comment could not be updated");
-			return ResponseEntity.status(500).body(response);
-		}
-	}
+            Comment existingComment = commentServiceImpl.getCommentById(id);
 
-	@PostMapping("/{id}/delete")
+            existingComment.setComment(commentDto.getComment());
+
+            Comment updatedComment = commentServiceImpl.updateComment(id, existingComment);
+            return ResponseEntity.ok("Comment updated successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Comment could not be updated");
+            return ResponseEntity.status(500).body(response);
+        }
+    }
+
+	@DeleteMapping("/{id}/delete")
 	public ResponseEntity<String> deleteComment(@PathVariable Long id) {
 		String message = commentServiceImpl.deleteComment(id);
 		return ResponseEntity.ok(message);
