@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class CommentDto {
-	private Comment comment;
+	private String comment;
 	
 	@JsonIgnore
 	private Long post_id;
