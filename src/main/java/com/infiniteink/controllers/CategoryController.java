@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.infiniteink.entities.Category;
 import com.infiniteink.exceptions.ResourceNotFoundException;
-import com.infiniteink.services.impl.CategoryServiceImpl;
+import com.infiniteink.services.CategoryService;
 
 import jakarta.validation.Valid;
 
@@ -19,10 +19,10 @@ import jakarta.validation.Valid;
 public class CategoryController {
 
     @Autowired
-    private CategoryServiceImpl categoryService;
+    private CategoryService categoryService; // Change to use the interface
 
     @PostMapping("/add")
-    public ResponseEntity<?> addCategory(@Valid @ModelAttribute("category") Category category) {
+    public ResponseEntity<?> addCategory(@Valid @RequestBody Category category) {
         try {
             Category savedCategory = categoryService.addCategory(category);
             Map<String, String> response = new HashMap<>();
@@ -37,8 +37,14 @@ public class CategoryController {
     }
 
     @GetMapping("/list")
-    public List<Category> getAllCategories() {
-        return categoryService.viewAllCategory();
+    public ResponseEntity<List<Category>> getAllCategories() {
+        try {
+            List<Category> categories = categoryService.viewAllCategory();
+            return ResponseEntity.ok(categories);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
     }
 
     @GetMapping("/{id}")
@@ -55,7 +61,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @Valid @ModelAttribute("category") Category categoryDetails) {
+    public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @Valid @RequestBody Category categoryDetails) {
         try {
             Category updatedCategory = categoryService.updateCategory(id, categoryDetails);
             return ResponseEntity.ok("Category updated successfully");
@@ -75,7 +81,7 @@ public class CategoryController {
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
         try {
-            Category deletedCategory = categoryService.deleteCategory(id);
+            categoryService.deleteCategory(id);
             return ResponseEntity.ok("Category deleted successfully");
         } catch (ResourceNotFoundException e) {
             e.printStackTrace();
