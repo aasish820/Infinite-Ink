@@ -1,7 +1,7 @@
 package com.infiniteink.repositories;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,7 +18,7 @@ public interface PostRepo extends JpaRepository<Post, Integer> {
 	List<Post> findAllActivePosts();
 
 	@Query("select p from Post p where p.id=?1 and p.deleted_at IS NULL")
-	Post findActivePostById(Long Id);
+	Optional<Post> findActivePostById(Long Id);
 	
 	@Query("select p from Post p where p.user.id=?1 and p.deleted_at IS NULL")
 	List<Post> findActivePostsByUserId(Long user_id);
@@ -31,5 +31,7 @@ public interface PostRepo extends JpaRepository<Post, Integer> {
     @Modifying
     @Query("update Post p set p.deleted_at = CURRENT_TIMESTAMP where p.id = ?1")
     void softDeletePostById(Long id);
- 
+
+	
+	
 }

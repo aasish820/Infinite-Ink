@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.infiniteink.entities.Post;
+import com.infiniteink.entities.User;
 import com.infiniteink.exceptions.PostNotFoundException;
+import com.infiniteink.exceptions.UserNotFoundException;
 import com.infiniteink.repositories.PostRepo;
 import com.infiniteink.services.PostService;
 
@@ -25,9 +27,11 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Post getPostbyId(Long Id) {
-		// TODO Auto-generated method stub
-		return postrepo.findActivePostById(Id);
-	}
+		Post post = postrepo.findActivePostById(Id).orElseThrow(()->new PostNotFoundException("Post does not exist"));
+	       return post;
+	            
+	    }
+	
 
 	@Override
 	public List<Post> getPostByUserId(Long userId) {
@@ -49,7 +53,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Post updatePost(Long id, Post postDto) {
-		Post post = postrepo.findActivePostById(id);
+		Post post = postrepo.findActivePostById(id).get();
 		if (post == null) {
 			throw new PostNotFoundException("Post not found with id " + id);
 		}
@@ -64,5 +68,6 @@ public class PostServiceImpl implements PostService {
 	public void deletePost(Long id) {
 		postrepo.softDeletePostById(id);
 	}
+	
 
 }

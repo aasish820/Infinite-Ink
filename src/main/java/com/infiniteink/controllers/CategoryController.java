@@ -22,7 +22,7 @@ public class CategoryController {
     private CategoryService categoryService; // Change to use the interface
 
     @PostMapping("/add")
-    public ResponseEntity<?> addCategory(@Valid @RequestBody Category category) {
+    public ResponseEntity<?> addCategory(@Valid @ModelAttribute("category") Category category) {
         try {
             Category savedCategory = categoryService.addCategory(category);
             Map<String, String> response = new HashMap<>();
