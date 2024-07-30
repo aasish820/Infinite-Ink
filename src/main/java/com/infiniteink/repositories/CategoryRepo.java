@@ -15,15 +15,15 @@ import com.infiniteink.entities.Category;
 @Repository
 public interface CategoryRepo extends JpaRepository<Category, Long> {
 
-    @Query("SELECT c FROM Category c WHERE c.deletedAt IS NULL")
+    @Query("SELECT c FROM Category c WHERE c.deleted_at IS NULL")
     List<Category> viewAllCategory();
 
-    @Query("SELECT c FROM Category c WHERE c.id = :id AND c.deletedAt IS NULL")
+    @Query("SELECT c FROM Category c WHERE c.id = :id AND c.deleted_at IS NULL")
     Optional<Category> findById(Long id);
 
 
     @Modifying
     @Transactional
-    @Query("UPDATE Category c SET c.deletedAt = CURRENT_TIMESTAMP WHERE c.id = :id AND c.deletedAt IS NULL")
+    @Query("UPDATE Category c SET c.deleted_at = CURRENT_TIMESTAMP WHERE c.id = :id AND c.deleted_at IS NULL")
     void softDeleteCategoryById(@Param("id") Long id);
 }
